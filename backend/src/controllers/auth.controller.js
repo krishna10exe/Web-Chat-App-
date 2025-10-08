@@ -3,9 +3,11 @@ import ApiError from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { User } from "../models/user.model.js"
 import { generateToken } from "../lib/gentoke.js"
+import bcrypt from "bcryptjs"
 
 const registerUser = asyncHandler(async(req,res) => {
     const {fullName, password , email}=req.body
+    console.log(req.body)
     if([fullName,email,password].some((field)=>field?.trim()==="")){
         throw new ApiError(400,"all fields are required!")
     }
@@ -32,4 +34,19 @@ const registerUser = asyncHandler(async(req,res) => {
     )
 })
 
-export {registerUser}
+const loginUser = asyncHandler(async(req,res) => {
+    console.log(req.body)
+    const {email,password} =req.body
+    if(!email || !password) throw new ApiError(400,"Email And Password is required!");
+    
+    const user= await User.findOne({email})
+    if(!user) throw new ApiError(400,"Invalid Credential!");
+    
+    const checkPassword=await bcrypt.compare(password,user.password)
+    if(!checkPassword) throw new ApiError(400,"Invalid Credential!");
+
+    const token=generateToken(user._id,res);
+    return res.status(200).json( new ApiResponse(200,{user: user,token},"User logged in successfully!"))
+})
+
+export {registerUser,loginUser}
