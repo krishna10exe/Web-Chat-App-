@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js"
 import ApiError from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { User } from "../models/user.model.js"
+import { generateToken } from "../lib/gentoke.js"
 
 const registerUser = asyncHandler(async(req,res) => {
     const {fullName, password , email}=req.body
@@ -21,7 +22,9 @@ const registerUser = asyncHandler(async(req,res) => {
     })
 
     const createdUser = await User.findById(user._id).select("-password")
-
+    if(createdUser){
+        generateToken(createdUser._id,res)
+    }
     if(!createdUser) throw new ApiError(500,"Something went wrong while registering user")
 
     return res.status(200).json(
