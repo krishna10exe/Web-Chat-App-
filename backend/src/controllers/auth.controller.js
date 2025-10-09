@@ -35,7 +35,6 @@ const registerUser = asyncHandler(async(req,res) => {
 })
 
 const loginUser = asyncHandler(async(req,res) => {
-    console.log(req.body)
     const {email,password} =req.body
     if(!email || !password) throw new ApiError(400,"Email And Password is required!");
     
@@ -49,4 +48,15 @@ const loginUser = asyncHandler(async(req,res) => {
     return res.status(200).json( new ApiResponse(200,{user: user,token},"User logged in successfully!"))
 })
 
-export {registerUser,loginUser}
+const logoutUser = asyncHandler(async(req,res) =>{
+    res.cookie("jwt","",{
+        httpOnly: true,
+        secure: process.env.NODE_ENV!=="development",
+        sameSite: "strict",
+        maxAge: 0});
+    
+    res.status(200).json({message: "Logged out successfully"})
+})
+
+
+export {registerUser,loginUser,logoutUser}
