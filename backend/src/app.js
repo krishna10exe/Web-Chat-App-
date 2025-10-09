@@ -9,8 +9,10 @@ app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 // routes
 import authRoutes from "./routes/auth.route.js"
+import messageRoutes from "./routes/message.route.js"
 
 // routes declarations
 app.use("/api/v1/users/auth",authRoutes)
+app.use("/api/v1/users/message",messageRoutes)
 
 export default app
