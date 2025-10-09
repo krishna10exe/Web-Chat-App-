@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/apiResponse.js"
 import { User } from "../models/user.model.js"
 import { generateToken } from "../lib/gentoke.js"
 import bcrypt from "bcryptjs"
+import cloudinary from "../utils/cloudinary.js"
 
 const registerUser = asyncHandler(async(req,res) => {
     const {fullName, password , email}=req.body
@@ -58,5 +59,21 @@ const logoutUser = asyncHandler(async(req,res) =>{
     res.status(200).json({message: "Logged out successfully"})
 })
 
+const updateProfile = asyncHandler(async(req,res)=>{
+    const {profilePic}=req.body
+    if(!profilePic) throw new ApiError(400,"Profile Pic is required!");
+    
+    const userId=req.user._id
+    if(!userId) throw new ApiError(400,"User not found!");
 
-export {registerUser,loginUser,logoutUser}
+    const uploadRespone=await cloudinary.uploader.upload(profilePic);
+    const updatedUser=await User.findByIdAndUpdate(userId,{profilePic:uploadRespone.secure_url},{new:true});
+    res.status(200).json(new ApiResponse(200,updatedUser,"Profile Pic is Uploaded Successfully"));
+})
+
+const checkAuth = asyncHandler(async(req,res)=>{
+    res.status(200).json(req.user);
+})
+
+
+export {registerUser,loginUser,logoutUser,updateProfile,checkAuth}
