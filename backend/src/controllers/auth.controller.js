@@ -71,12 +71,14 @@ const updateProfile = asyncHandler(async(req,res)=>{
     res.status(200).json(new ApiResponse(200,updatedUser,"Profile Pic is Uploaded Successfully"));
 })
 
-const checkAuth = asyncHandler(async(req,res)=>{
-    if (!req.user) {
-        return res.status(200).json(null); // no user logged in
-    }
+const checkAuth = (req, res) => {
+  try {
     res.status(200).json(req.user);
-})
+  } catch (error) {
+    console.log("Error in checkAuth controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
 export {registerUser,loginUser,logoutUser,updateProfile,checkAuth}
