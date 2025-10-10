@@ -14,6 +14,6 @@ import messageRoutes from "./routes/message.route.js"
 
 // routes declarations
 app.use("/api/v1/users/auth",authRoutes)
-app.use("/api/v1/users/message",messageRoutes)
+app.use("/api/v1/users/messages",messageRoutes)
 
 export default app
