@@ -8,12 +8,14 @@ const protectRoute = asyncHandler(async(req,res,next) => {
 
     if(!token) throw new ApiError(401,"Unauthorized  - Token not found!");
 
-    const decoded=jwt.verify(token,process.env.JWT_SECRET);
+    let decoded;
+    try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+        throw new ApiError(401, "Unauthorized - Invalid Token");
+    }
 
-    if(!decoded) throw new ApiError(401,"Unauthorized - Invalid Token");
-
-    const userId= decoded.userId;
-    const user=await User.findById(userId).select("-password")
+    const user = await User.findById(decoded.userId).select("-password");
     if(!user) throw new ApiError(404,"User not Found");
 
     req.user = user

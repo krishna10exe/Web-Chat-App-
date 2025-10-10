@@ -72,6 +72,9 @@ const updateProfile = asyncHandler(async(req,res)=>{
 })
 
 const checkAuth = asyncHandler(async(req,res)=>{
+    if (!req.user) {
+        return res.status(200).json(null); // no user logged in
+    }
     res.status(200).json(req.user);
 })
 
