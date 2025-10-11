@@ -4,6 +4,7 @@ import ApiError from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import cloudinary from "../utils/cloudinary.js";
+import { getReceiverSocketId } from "../lib/socket.js";
 
 const getUsersForSidebars = asyncHandler(async(req,res) => {
     const loggedInUserId=req.user?._id;
@@ -53,6 +54,12 @@ const sendMessage = asyncHandler(async(req,res) =>{
     await newMessage.save();
 
     // realtime functionality --> using socket.io
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
 
     res.status(201).json(new ApiResponse(201,newMessage,"Message ready to send"))
 })

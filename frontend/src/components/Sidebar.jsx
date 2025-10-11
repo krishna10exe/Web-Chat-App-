@@ -15,9 +15,15 @@ const Sidebar = () => {
     getUsers();
   }, [getUsers]);
 
-  const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
-    : users;
+  let filteredUsers = showOnlineOnly
+  ? users.filter((user) => onlineUsers.includes(user._id))
+  : users;
+
+  filteredUsers.sort((a, b) => {
+    const aOnline = onlineUsers.includes(a._id) ? 1 : 0;
+    const bOnline = onlineUsers.includes(b._id) ? 1 : 0;
+    return bOnline - aOnline; // online first
+  });
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
