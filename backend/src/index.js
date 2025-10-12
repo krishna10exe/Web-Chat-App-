@@ -10,15 +10,6 @@ dotenv.config({
     path: './.env'
 })
 // const app = express();
-const __dirname=path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-  // Make sure this is AFTER all your API routes
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
-}
 connectDB()
 .then(()=>{
     server.listen(process.env.PORT || 5000 , ()=>{
