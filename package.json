@@ -1,0 +1,21 @@
+{
+  "name": "web-chat-app",
+  "version": "1.0.0",
+  "description": "A real-time chat application built with the **MERN stack** — MongoDB, Express.js, React.js, and Node.js.  \r It allows users to register, log in, and chat with others in real time using **WebSockets (Socket.IO)**.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krishna10exe/Web-Chat-App-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krishna10exe/Web-Chat-App-/issues"
+  },
+  "homepage": "https://github.com/krishna10exe/Web-Chat-App-#readme"
+}
