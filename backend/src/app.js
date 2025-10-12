@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   // SPA catch-all route for Express 5
-  app.get("/{path*}", (req, res) => {
+  app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
   });
 }
