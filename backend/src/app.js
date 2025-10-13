@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from "path";
+// import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { app, server } from "./lib/socket.js";
@@ -16,8 +16,8 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
 
 // Recreate __dirname for ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // Routes
 import authRoutes from "./routes/auth.route.js";
@@ -27,13 +27,6 @@ app.use("/api/v1/users/auth", authRoutes);
 app.use("/api/v1/users/messages", messageRoutes);
 
 // Serve frontend in production (Render)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/dist", "index.html"));
-  });
-}
 
 // Export app (for testing or server.js usage)
 export default app;
