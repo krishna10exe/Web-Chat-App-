@@ -4,7 +4,7 @@ import ApiError from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import cloudinary from "../utils/cloudinary.js";
-import { getReceiverSocketId } from "../lib/socket.js";
+import { getReceiverSocketId,io } from "../lib/socket.js";
 
 const getUsersForSidebars = asyncHandler(async(req,res) => {
     const loggedInUserId=req.user?._id;
