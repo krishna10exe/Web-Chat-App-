@@ -2,7 +2,7 @@
   "name": "web-chat-app",
   "version": "1.0.0",
   "description": "A real-time chat application built with the **MERN stack** — MongoDB, Express.js, React.js, and Node.js.  \r It allows users to register, log in, and chat with others in real time using **WebSockets (Socket.IO)**.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "npm run start --prefix backend"
