@@ -1,31 +1,39 @@
-import express from "express"
-import cookieParser from "cookie-parser"
-import cors from "cors"
-import { app,server } from "./lib/socket.js"
-import path from "path"
-// const app = express();
-app.use(cors({ origin:"http://localhost:5173", credentials: true }));
-app.use(express.json({ limit: "10mb" }));   
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import { app, server } from "./lib/socket.js";
 
+// Load environment variables
+dotenv.config();
+
+// Set up CORS, body parsing, cookies
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
 
-const __dirname = path.resolve();
+// Recreate __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// routes
-import authRoutes from "./routes/auth.route.js"
-import messageRoutes from "./routes/message.route.js"
+// Routes
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
 
-// routes declarations
-app.use("/api/v1/users/auth",authRoutes)
-app.use("/api/v1/users/messages",messageRoutes)
+app.use("/api/v1/users/auth", authRoutes);
+app.use("/api/v1/users/messages", messageRoutes);
 
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname,"../frontend/dist")));
-  
+// Serve frontend in production (Render)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "../../frontend/dist", "index.html"));
   });
 }
 
-export default app
+// Export app (for testing or server.js usage)
+export default app;
