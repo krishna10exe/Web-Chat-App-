@@ -110,7 +110,7 @@ const MessageInput = () => {
           {/* Picker Button */}
           <button
             type="button"
-            className="btn btn-circle btn-sm text-zinc-400"
+            className="btn btn-circle btn-sm mt-1.5 text-zinc-400"
             onClick={() => setShowPicker(!showPicker)}
           >
             <Smile size={20} />
