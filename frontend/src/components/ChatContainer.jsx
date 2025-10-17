@@ -24,17 +24,34 @@ const ChatContainer = () => {
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
+  // Notification sound
+  const notificationSound = useRef(new Audio("/sound.mpeg"));
+
+  // Fetch and subscribe to messages
   useEffect(() => {
     getMessages(selectedUser._id);
     subscribeToMessages();
     return () => unsubscribeFromMessages();
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
+  // Scroll to bottom when messages change
   useEffect(() => {
     if (messageEndRef.current && messages) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  // Play notification for new messages from the other user
+  const previousMessageCount = useRef(messages.length);
+  useEffect(() => {
+    if (messages.length > previousMessageCount.current) {
+      const newMessage = messages[messages.length - 1];
+      if (newMessage.senderId !== authUser._id) {
+        notificationSound.current.play().catch((err) => console.log(err));
+      }
+    }
+    previousMessageCount.current = messages.length;
+  }, [messages, authUser._id]);
 
   if (isMessagesLoading) {
     return (
