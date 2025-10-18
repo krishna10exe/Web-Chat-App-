@@ -25,7 +25,7 @@ const ChatContainer = () => {
   const messageEndRef = useRef(null);
 
   // Notification sound
-  const notificationSound = useRef(new Audio("/sound.mpeg"));
+  const notificationSound = useRef(new Audio("/nsound.mpeg"));
 
   // Fetch and subscribe to messages
   useEffect(() => {
