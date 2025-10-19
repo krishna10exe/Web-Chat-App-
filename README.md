@@ -43,3 +43,7 @@ It allows users to register, log in, and chat with others in real time using **W
 - Socket.IO (for real-time chat)
 
 ---
+## 🌐 Live Deployment
+
+The project is live and accessible here:
+👉 **[Live Demo](https://chamts.onrender.com/)**
