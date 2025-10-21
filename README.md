@@ -27,7 +27,7 @@ It allows users to register, log in, and chat with others in real time using **W
 ## 🧩 Tech Stack
 
 **Frontend**
-- React.js (Vite or CRA)
+- React.js (Vite)
 - Context API / Redux (for state management)
 - Axios (for API calls)
 - Tailwind CSS / Chakra UI / Material UI
